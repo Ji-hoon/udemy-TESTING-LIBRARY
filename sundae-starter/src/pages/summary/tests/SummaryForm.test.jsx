@@ -1,20 +1,10 @@
-import { render, screen } from "../../../test-utils/testing-library-utils";
-
-import userEvent from "@testing-library/user-event";
+import { screen } from "../../../test-utils/testing-library-utils";
 import SummaryForm from "../SummaryForm.jsx";
-
-function setup(jsx) {
-  return {
-    user: userEvent.setup(),
-    // Import `render` from the framework library of your choice.
-    // See https://testing-library.com/docs/dom-testing-library/install#wrappers
-    ...render(jsx),
-  };
-}
+import { userEventSetup } from "../../../utils";
 
 // eslint-disable-next-line vitest/expect-expect
 test("[Quiz3] check submit form", async () => {
-  const { user } = setup(<SummaryForm />);
+  const { user } = userEventSetup(<SummaryForm />);
 
   const buttonElement = screen.getByRole("button", { name: /confirm order/i });
   const checkboxElement = screen.getByRole("checkbox", {
@@ -31,7 +21,7 @@ test("[Quiz3] check submit form", async () => {
 });
 
 test("popover responds to hover", async () => {
-  const { user } = setup(<SummaryForm />);
+  const { user } = userEventSetup(<SummaryForm />);
 
   const nullPopover = screen.queryByText(
     /no ice cream will actually be delivered/i

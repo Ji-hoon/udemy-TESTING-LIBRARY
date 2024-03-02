@@ -1,19 +1,9 @@
-import { render, screen } from "../../../test-utils/testing-library-utils";
-import userEvent from "@testing-library/user-event";
+import { screen } from "../../../test-utils/testing-library-utils";
 import Options from "../Options";
-
-function setup(jsx) {
-  return {
-    user: userEvent.setup(),
-    // Import `render` from the framework library of your choice.
-    // See https://testing-library.com/docs/dom-testing-library/install#wrappers
-    ...render(jsx),
-    // to add provider try : render(jsx, { wrapper: provider });
-  };
-}
+import { userEventSetup } from "../../../utils";
 
 test("update scoop subtotal when scoop change", async () => {
-  const { user } = setup(<Options optionType="scoops" />);
+  const { user } = userEventSetup(<Options optionType="scoops" />);
 
   // make sure total starts out at $0.00
   const scoopSubtotal = screen.getByText("Scoops total: $", { exact: false });
