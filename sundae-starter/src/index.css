@@ -7,4 +7,5 @@ html,
   background-color: teal;
   color: ivory;
   padding: 16px;
+  overflow: auto;
 }
