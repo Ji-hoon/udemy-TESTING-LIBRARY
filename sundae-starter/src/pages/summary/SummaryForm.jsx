@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import { useOrderDetails } from "../../contexts/OrderDetails";
 
-export default function SummaryForm() {
+// eslint-disable-next-line react/prop-types
+export default function SummaryForm({ confirmOrder }) {
   const [tcChecked, setTcChecked] = useState(false);
+  const { optionCounts, resetOrder } = useOrderDetails();
 
   const popover = (
     <Popover id="popover-basic">
@@ -22,6 +25,14 @@ export default function SummaryForm() {
     </span>
   );
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    confirmOrder();
+    resetOrder();
+
+    console.log(optionCounts);
+  }
+
   return (
     <Form>
       <Form.Group controlId="terms-and-conditions">
@@ -32,7 +43,12 @@ export default function SummaryForm() {
           label={checkboxLabel}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" disabled={!tcChecked}>
+      <Button
+        variant="primary"
+        onClick={(e) => handleSubmit(e)}
+        type="submit"
+        disabled={!tcChecked}
+      >
         Confirm order
       </Button>
     </Form>

@@ -129,7 +129,7 @@ describe("grand total", () => {
     await user.click(cherriesTopping);
     expect(grandTotalValue).toHaveTextContent("2.00");
 
-    await user.type(chocolateInput, "0");
+    await user.clear(chocolateInput);
     expect(grandTotalValue).toHaveTextContent("0.00");
   });
 });

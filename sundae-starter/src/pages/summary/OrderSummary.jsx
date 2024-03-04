@@ -1,9 +1,10 @@
 import SummaryForm from "./SummaryForm";
 import { useOrderDetails } from "../../contexts/OrderDetails";
-import { formatCurrency } from "../../utilities";
+import { formatCurrency } from "../../utils";
+import TotalUpdates from "../entry/TotalUpdates";
 
 // eslint-disable-next-line react/prop-types
-export default function OrderSummary({ setOrderPhase }) {
+export default function OrderSummary({ confirmOrder }) {
   const { totals, optionCounts } = useOrderDetails();
 
   const scoopArray = Object.entries(optionCounts.scoops);
@@ -21,9 +22,14 @@ export default function OrderSummary({ setOrderPhase }) {
       <h1>Order Summary</h1>
       <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
       <ul>{scoopList}</ul>
-      <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
-      <ul>{toppingList}</ul>
-      <SummaryForm setOrderPhase={setOrderPhase} />
+      {totals.toppings !== 0 && (
+        <>
+          <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
+          <ul>{toppingList}</ul>
+        </>
+      )}
+      <TotalUpdates />
+      <SummaryForm confirmOrder={confirmOrder} />
     </div>
   );
 }

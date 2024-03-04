@@ -26,13 +26,13 @@ export default function Options({ optionType }) {
       .then((response) => setItems(response.data))
       .catch((error) => {
         // TODO: handle error response
-        // console.log(error);
+        //console.log(error);
         setError(true);
       });
 
-    return () => {
-      controller.abort();
-    };
+    // return () => {
+    //   controller.abort();
+    // };
   }, [optionType]);
 
   if (error) {

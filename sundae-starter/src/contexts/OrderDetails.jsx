@@ -24,7 +24,10 @@ export function OrderDetailProvider(props) {
 
   function updateItemCount(itemName, newItemCount, optionType) {
     const newOptionCounts = { ...optionCounts };
-    newOptionCounts[optionType][itemName] = newItemCount;
+    if (newItemCount !== null) {
+      newOptionCounts[optionType][itemName] = newItemCount;
+    }
+
     setOptionCounts(() => newOptionCounts);
   }
 
@@ -45,6 +48,11 @@ export function OrderDetailProvider(props) {
     toppings: calculateTotal("toppings"),
   };
 
-  const value = { optionCounts, totals, updateItemCount, resetOrder };
+  const value = {
+    optionCounts,
+    totals,
+    updateItemCount,
+    resetOrder,
+  };
   return <OrderDetails.Provider value={value} {...props} />;
 }

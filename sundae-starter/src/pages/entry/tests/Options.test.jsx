@@ -1,6 +1,8 @@
 import { render, screen } from "../../../test-utils/testing-library-utils";
+import { userEventSetup } from "../../../utils";
 
 import Options from "../Options";
+import ScoopOptions from "../ScoopOption";
 
 test("displays image for each scoop option from server", async () => {
   render(<Options optionType="scoops" />);
@@ -29,4 +31,29 @@ test("[Quiz] topping test", async () => {
     "M&Ms topping",
     "Hot fudges topping",
   ]);
+});
+
+test("spinbutton has class is-invalid when type negative number", async () => {
+  const { user, container } = userEventSetup(<Options optionType="scoops" />);
+  const vanillaScoop = await screen.findByRole("spinbutton", {
+    name: /vanilla/i,
+  });
+  const subTotalCounts = await screen.findByText("Scoops total:", {
+    exact: false,
+  });
+  screen.debug();
+
+  await user.clear(vanillaScoop);
+  await user.type(vanillaScoop, "10");
+  await user.type(vanillaScoop, "11");
+  expect(vanillaScoop).toHaveClass("is-invalid");
+  expect(subTotalCounts).toHaveTextContent("0.00");
+
+  await user.clear(vanillaScoop);
+  await user.type(vanillaScoop, "0");
+  expect(subTotalCounts).toHaveTextContent("0.00");
+
+  await user.clear(vanillaScoop);
+  await user.type(vanillaScoop, "-3");
+  expect(subTotalCounts).toHaveTextContent("0.00");
 });
